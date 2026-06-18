@@ -1,0 +1,64 @@
+# ============================================================
+# config.yaml — Central Project Configuration
+# Explainable Medical Image Classification
+# ============================================================
+
+project:
+  name: "XAI-MedImage"
+  seed: 42
+  device: "auto"   # "auto" | "cuda" | "mps" | "cpu"
+  base_dir: "."     # Project root (resolved at runtime)
+
+dataset:
+  name: "chest_xray"          # chest_xray | brain_mri
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  image_size: [224, 224]       # (H, W)
+  num_classes: 2               # Binary (NORMAL vs PNEUMONIA)
+  class_names: ["NORMAL", "PNEUMONIA"]
+
+augmentation:
+  horizontal_flip: true
+  rotation_degrees: 15
+  brightness_jitter: 0.2
+  contrast_jitter: 0.2
+  random_erasing: true
+
+training:
+  model: "resnet50"            # custom_cnn | resnet50 | vgg16 | efficientnet_b0 | densenet121
+  pretrained: true
+  freeze_backbone: false
+  epochs: 30
+  batch_size: 32
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  dropout: 0.5                 # Dropout rate for classifier heads
+  num_workers: 0               # DataLoader workers (0 = main process, safest)
+  gradient_clip_norm: 1.0      # Max gradient norm for clipping
+  scheduler: "cosine"          # cosine | step | plateau
+  early_stopping_patience: 7
+  mixed_precision: true
+
+paths:
+  models_dir: "models/saved_models"
+  outputs_dir: "outputs"
+  gradcam_dir: "outputs/gradcam"
+  shap_dir: "outputs/shap"
+  plots_dir: "outputs/plots"
+  tensorboard_dir: "runs/xai_medimage"
+  best_model: "models/saved_models/best_model.pth"
+  checkpoint: "models/saved_models/checkpoint.pth"
+
+explainability:
+  gradcam:
+    num_samples: 20
+    colormap: "jet"
+    alpha: 0.5
+  shap:
+    background_samples: 50
+    test_samples: 10
+  uncertainty:
+    mc_dropout_passes: 30      # Number of stochastic forward passes
+
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1", "roc_auc", "specificity", "sensitivity"]

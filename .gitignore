@@ -1,0 +1,43 @@
+# ============================================================
+# .gitignore — XAI Medical Image Classification
+# ============================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Data (too large for git)
+data/
+
+# Model weights (too large for git)
+models/saved_models/*.pth
+
+# Outputs (generated artifacts)
+outputs/
+runs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
